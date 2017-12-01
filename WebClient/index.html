@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script src="Scripts/jquery-3.2.1.js"></script>
+    <script>
+        var authToken = "";
+        $(document).ready(function () {
+            
+            var uri = 'ws://localhost:48484/api/App';
+            var websocket = new WebSocket(uri);
+
+            websocket.onopen = function () {
+                var authRequest = {
+                    Command: "authorize",
+                    AuthToken: authToken,
+                    Data: {
+                        Login: "ololoev",
+                        Password: "ololoevsPassword"
+                    }
+                }
+                $('#messages').prepend('<div>Connected.</div>');
+                websocket.send(JSON.stringify(authRequest));
+            };
+
+            websocket.onerror = function (event) {
+                $('#messages').prepend('<div>ERROR</div>');
+            };
+
+            websocket.onmessage = function (event) {
+                if (event.data.Command == "authorize") {
+                    authToken = event.data.Data;
+                }
+            };
+        });
+    </script>
+</head>
+<body>
+<form id="chatform" action="">
+    <input id="inputbox" />
+</form>
+<div id="messages" />
+</body>
+</html>
