@@ -29,8 +29,10 @@
             };
 
             websocket.onmessage = function (event) {
-                if (event.data.Command == "authorize") {
-                    authToken = event.data.Data;
+                var data = JSON.parse(event.data);
+                if (data.Command == "authorize") {
+                    authToken = data.Data;
+                    $('#messages').prepend('<div>Your token: ' + authToken +'</div>');
                 }
             };
         });

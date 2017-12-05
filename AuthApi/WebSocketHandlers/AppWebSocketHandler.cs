@@ -18,7 +18,7 @@ namespace AuthApi.WebSocketHandlers
         public override void OnOpen()
         {
             _connectedClients.Add(this);
-        }
+		}
 
         public override void OnMessage(string message)
         {
